@@ -2,95 +2,55 @@
 
 namespace ZfcUser\Mapper;
 
-use Zend\Crypt\Password\PasswordInterface as ZendCryptPassword;
 use Zend\Stdlib\Hydrator\ClassMethods;
-use ZfcUser\Entity\UserInterface as UserEntity;
+use ZfcUser\Entity\UserInterface as UserEntityInterface;
 
-class UserHydrator extends ClassMethods implements HydratorInterface
+class UserHydrator extends ClassMethods
 {
-    /**
-     * @var ZendCryptPassword
-     */
-    private $cryptoService;
-
-    /**
-     * @param ZendCryptPassword $cryptoService
-     * @param bool|array        $underscoreSeparatedKeys
-     */
-    public function __construct(
-        ZendCryptPassword $cryptoService,
-        $underscoreSeparatedKeys = true
-    ) {
-        parent::__construct($underscoreSeparatedKeys);
-        $this->cryptoService = $cryptoService;
-    }
 
     /**
      * Extract values from an object
      *
-     * @param  UserEntityInterface $object
+     * @param  object $object
      * @return array
      * @throws Exception\InvalidArgumentException
      */
     public function extract($object)
     {
-        $this->guardUserObject($object);
+        if (!$object instanceof UserEntityInterface) {
+            throw new Exception\InvalidArgumentException('$object must be an instance of ZfcUser\Entity\UserInterface');
+        }
+        /* @var $object UserInterface */
         $data = parent::extract($object);
-        return $this->mapField('id', 'user_id', $data);
+        if ($data['id'] !== null) {
+            $data = $this->mapField('id', 'user_id', $data);
+        } else {
+            unset($data['id']);
+        }
+        return $data;
     }
 
     /**
      * Hydrate $object with the provided $data.
      *
-     * @param  array               $data
-     * @param  UserEntityInterface $object
-     * @return UserEntityInterface
+     * @param  array $data
+     * @param  object $object
+     * @return UserInterface
      * @throws Exception\InvalidArgumentException
      */
     public function hydrate(array $data, $object)
     {
-        $this->guardUserObject($object);
+        if (!$object instanceof UserEntityInterface) {
+            throw new Exception\InvalidArgumentException('$object must be an instance of ZfcUser\Entity\UserInterface');
+        }
         $data = $this->mapField('user_id', 'id', $data);
         return parent::hydrate($data, $object);
     }
 
-    /**
-     * @return ZendCryptPassword
-     */
-    public function getCryptoService()
-    {
-        return $this->cryptoService;
-    }
-
-    /**
-     * Remap an array key
-     *
-     * @param  string $keyFrom
-     * @param  string $keyTo
-     * @param  array  $array
-     * @return array
-     */
     protected function mapField($keyFrom, $keyTo, array $array)
     {
-        if (isset($array[$keyFrom])) {
-            $array[$keyTo] = $array[$keyFrom];
-        }
+        $array[$keyTo] = $array[$keyFrom];
         unset($array[$keyFrom]);
         return $array;
-    }
-
-    /**
-     * Ensure $object is an UserEntityInterface
-     *
-     * @param  mixed $object
-     * @throws Exception\InvalidArgumentException
-     */
-    protected function guardUserObject($object)
-    {
-        if (!$object instanceof UserEntity) {
-            throw new Exception\InvalidArgumentException(
-                '$object must be an instance of ZfcUser\Entity\UserInterface'
-            );
-        }
     }
 }

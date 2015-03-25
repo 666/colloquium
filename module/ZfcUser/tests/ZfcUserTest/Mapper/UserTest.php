@@ -6,18 +6,17 @@ use ZfcUser\Mapper\User as Mapper;
 use ZfcUser\Entity\User as Entity;
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Db\Adapter\Adapter;
+use ZfcUser\Mapper\UserHydrator;
 
 class UserTest extends \PHPUnit_Framework_TestCase
 {
-    const ENCRYPTED_PASSWORD = 'c4zyP455w0rd!';
-
     /** @var \ZfcUser\Mapper\User */
     protected $mapper;
 
     /** @var \Zend\Db\Adapter\Adapter */
     protected $mockedDbAdapter;
 
-    /** @var \Zend\Db\Adapter\Adapter[] */
+    /** @var \Zend\Db\Adapter\Adapter */
     protected $realAdapter = array();
 
     /** @var \Zend\Db\Sql\Select */
@@ -39,7 +38,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
     {
         $mapper = new Mapper;
         $mapper->setEntityPrototype(new Entity());
-        $mapper->setHydrator($this->buildHydrator());
+        $mapper->setHydrator(new UserHydrator());
         $this->mapper = $mapper;
 
 
@@ -265,7 +264,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $baseEntity = new Entity();
         $baseEntity->setEmail('zfc-user-foo@zend-framework.org');
         $baseEntity->setUsername('zfc-user-foo');
-        $baseEntity->setPassword(static::ENCRYPTED_PASSWORD);
+        $baseEntity->setPassword('zfc-user-foo');
 
         /* @var $entityEqual Entity */
         /* @var $dbAdapter Adapter */
@@ -324,7 +323,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $user->setDisplayName('Zfc-User');
         $user->setId('1');
         $user->setState(1);
-        $user->setPassword(static::ENCRYPTED_PASSWORD);
+        $user->setPassword('zfc-user');
 
         return array(
             array(
@@ -364,28 +363,5 @@ class UserTest extends \PHPUnit_Framework_TestCase
                 $user
             ),
         );
-    }
-
-    private function buildHydrator()
-    {
-        $hydrator = $this->getMock(
-            'ZfcUser\Mapper\UserHydrator',
-            null,
-            array($this->buildCrypto())
-        );
-        return $hydrator;
-    }
-
-    private function buildCrypto()
-    {
-        $crypto = $this->getMockForAbstractClass(
-            'Zend\Crypt\Password\PasswordInterface'
-        );
-        $crypto
-            ->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue(static::ENCRYPTED_PASSWORD));
-
-        return $crypto;
     }
 }

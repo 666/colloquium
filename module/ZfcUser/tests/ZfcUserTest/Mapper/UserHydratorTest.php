@@ -2,30 +2,16 @@
 
 namespace ZfcUserTest\Mapper;
 
-use ZfcUser\Entity\User as UserEntity;
 use ZfcUser\Mapper\UserHydrator as Hydrator;
 
 class UserHydratorTest extends \PHPUnit_Framework_TestCase
 {
-    const ENCRYPTED_PASSWORD = 'c4zyP455w0rd!';
-
     protected $hydrator;
 
     public function setUp()
     {
-        $hydrator = new Hydrator($this->buildCrypto());
+        $hydrator = new Hydrator;
         $this->hydrator = $hydrator;
-    }
-
-    /**
-     * @covers ZfcUser\Mapper\UserHydrator::getCryptoService
-     */
-    public function testGetCryptoServiceReturnsPasswordInterface()
-    {
-        $this->assertInstanceOf(
-            'Zend\Crypt\Password\PasswordInterface',
-            $this->hydrator->getCryptoService()
-        );
     }
 
     /**
@@ -41,7 +27,7 @@ class UserHydratorTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers ZfcUser\Mapper\UserHydrator::extract
      * @covers ZfcUser\Mapper\UserHydrator::mapField
-     * @dataProvider provideValidUserObjects
+     * @dataProvider dataProviderTestExtractWithValidUserObject
      * @see https://github.com/ZF-Commons/ZfcUser/pull/421
      */
     public function testExtractWithValidUserObject($object, $expectArray)
@@ -72,8 +58,8 @@ class UserHydratorTest extends \PHPUnit_Framework_TestCase
             'username' => 'zfcuser',
             'email' => 'Zfc User',
             'display_name' => 'ZfcUser',
-            'password' => 'c4zyP455w0rd!',
-            'state' => '1',
+            'password' => 'ZfcUserPassword',
+            'state' => 1,
             'user_id' => 1
         );
 
@@ -82,13 +68,24 @@ class UserHydratorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectArray['username'], $result->getUsername());
         $this->assertEquals($expectArray['email'], $result->getEmail());
         $this->assertEquals($expectArray['display_name'], $result->getDisplayName());
-        $this->assertEquals(static::ENCRYPTED_PASSWORD, $result->getPassword());
-        $this->assertEquals((int) $expectArray['state'], $result->getState());
+        $this->assertEquals($expectArray['password'], $result->getPassword());
+        $this->assertEquals($expectArray['state'], $result->getState());
         $this->assertEquals($expectArray['user_id'], $result->getId());
     }
 
-    public function provideValidUserObjects()
+    public function dataProviderTestExtractWithValidUserObject()
     {
+        $createUserObject = function ($data) {
+            $user = new \ZfcUser\Entity\User;
+            foreach ($data as $key => $value) {
+                if ($key == 'user_id') {
+                    $key='id';
+                }
+                $methode = 'set' . str_replace(" ", "", ucwords(str_replace("_", " ", $key)));
+                call_user_func(array($user,$methode), $value);
+            }
+            return $user;
+        };
         $return = array();
         $expectArray = array();
 
@@ -101,7 +98,7 @@ class UserHydratorTest extends \PHPUnit_Framework_TestCase
             'user_id' => 1
         );
 
-        $return[]=array($this->buildUser($buffer), $buffer);
+        $return[]=array($createUserObject($buffer), $buffer);
 
         /**
          * @see https://github.com/ZF-Commons/ZfcUser/pull/421
@@ -114,34 +111,8 @@ class UserHydratorTest extends \PHPUnit_Framework_TestCase
             'state' => 1
         );
 
-        $return[]=array($this->buildUser($buffer), $buffer);
+        $return[]=array($createUserObject($buffer), $buffer);
 
         return $return;
-    }
-
-    private function buildUser(array $data)
-    {
-        $user = new UserEntity;
-        foreach ($data as $key => $value) {
-            if ($key == 'user_id') {
-                $key = 'id';
-            }
-            $method = 'set' . str_replace(" ", "", ucwords(str_replace("_", " ", $key)));
-            call_user_func(array($user, $method), $value);
-        }
-        return $user;
-    }
-
-    private function buildCrypto()
-    {
-        $crypto = $this->getMockForAbstractClass(
-            'Zend\Crypt\Password\PasswordInterface'
-        );
-        $crypto
-            ->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue(static::ENCRYPTED_PASSWORD));
-
-        return $crypto;
     }
 }

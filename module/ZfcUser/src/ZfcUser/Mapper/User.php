@@ -4,7 +4,7 @@ namespace ZfcUser\Mapper;
 
 use ZfcBase\Mapper\AbstractDbMapper;
 use ZfcUser\Entity\UserInterface as UserEntityInterface;
-use Zend\Stdlib\Hydrator\HydratorInterface as Hydrator;
+use Zend\Stdlib\Hydrator\HydratorInterface;
 
 class User extends AbstractDbMapper implements UserInterface
 {
@@ -50,15 +50,14 @@ class User extends AbstractDbMapper implements UserInterface
         $this->tableName=$tableName;
     }
 
-    public function insert($entity, $tableName = null, Hydrator $hydrator = null)
+    public function insert($entity, $tableName = null, HydratorInterface $hydrator = null)
     {
-        $hydrator = $hydrator ?: $this->getHydrator();
         $result = parent::insert($entity, $tableName, $hydrator);
-        $hydrator->hydrate(array('user_id' => $result->getGeneratedValue()), $entity);
+        $entity->setId($result->getGeneratedValue());
         return $result;
     }
 
-    public function update($entity, $where = null, $tableName = null, Hydrator $hydrator = null)
+    public function update($entity, $where = null, $tableName = null, HydratorInterface $hydrator = null)
     {
         if (!$where) {
             $where = array('user_id' => $entity->getId());
