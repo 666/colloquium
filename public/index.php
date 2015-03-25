@@ -5,6 +5,9 @@
  */
 chdir(dirname(__DIR__));
 
+// Default Timezone
+date_default_timezone_set('America/Sao_Paulo');
+
 // Setup autoloading
 include 'init_autoloader.php';
 
