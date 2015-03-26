@@ -41,8 +41,8 @@ echo $this->doctype();
 		<ul class="nav navbar-nav navbar-right">
 					<?php if ($user): ?>
 					<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
-						<span class="glyphicon glyphicon-user"></span> <?php echo $user->getUsername(); ?>
-						<span class="caret"></span>
+						<?php echo $user->getUsername(); ?> <span class="caret"></span>&nbsp;
+						<?php echo $this->gravatar($this->zfcUserIdentity()->getEmail())->setImgSize(40) ?>
 					</a>
 					<ul class="dropdown-menu">
 						<li><a href="<?php echo $this->url('zfcuser'); ?>"><span class="glyphicon glyphicon-user"></span> <?php echo $this->translate('My profile') ?></a></li>
@@ -62,10 +62,8 @@ echo $this->doctype();
 							?>
 						<li><a href="<?php echo $this->url('admin'); ?>"><span class="glyphicon glyphicon-briefcase"></span> <?php echo $this->translate('Administration panel') ?></a></li>
 						<li><a href="<?php echo $this->url('admin/conferences'); ?>"><span class="glyphicon glyphicon-bullhorn"></span> <?php echo $this->translate('Conferences management') ?></a></li>
-						<li><a href="#"><span class="glyphicon glyphicon-book"></span> <?php echo $this->translate('Users management') ?></a></li>
-						<li><a href="#"><span class="glyphicon glyphicon-download-alt"></span> <?php echo $this->translate('Import/export data') ?></a></li>
+						<li><a href="<?php echo $this->url('admin/users'); ?>"><span class="glyphicon glyphicon-book"></span> <?php echo $this->translate('Users management') ?></a></li>
 						<li><a href="#"><span class="glyphicon glyphicon-print"></span> <?php echo $this->translate('Reports') ?></a></li>
-						<li><a href="#"><span class="glyphicon glyphicon-cog"></span> <?php echo $this->translate('System settings') ?></a></li>
 						<li class="divider"></li>
 							<?php
 							endif;
@@ -83,7 +81,7 @@ echo $this->doctype();
 	        <span class="icon-bar"></span>
 	        <span class="icon-bar"></span>
 	      </button>
-	      <a class="navbar-brand" href="<?php echo $this->url('home'); ?>">Colloquium <span class="beta">alpha</span></a>
+	      <a class="navbar-brand" href="<?php echo $this->url('home'); ?>"><img src="<?php echo $this->url('home'); ?>/img/tchelinux.png"> Colloquium <span class="beta">alpha</span></a>
 	    </div>
 
 	    <div class="collapse navbar-collapse" id="menutopo">
