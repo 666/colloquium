@@ -1,4 +1,6 @@
-<h1><?php echo $this->translate('Sign In'); ?></h1>
+<div class="page-header container">
+    <h1 class="catch"><span class="glyphicon glyphicon-user"></span> <?php echo $this->translate('Sign In'); ?></h1>
+</div>
 
 <?php
 
@@ -30,10 +32,6 @@ _('Password');
 
 <div class="container">
     <div class="content">
-    
-        <div class="page-header">
-            <h1 class="catch"><?php echo $this->translate('Sign In'); ?></h1>
-        </div>
 
         <div class="row-fluid">
 
@@ -42,26 +40,29 @@ _('Password');
                 <dl class="zend_form">
                     <?php echo $this->formElementErrors($form->get('identity')) ?>
 
-                    <dt><?php echo $this->formLabel($form->get('identity')) ?></dt>
-                    <dd><?php echo $this->formInput($form->get('identity')->setAttribute('class','form-control')) ?></dd>
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon login"><?php echo _('Username or Email') ?></span>
+                        <?php echo $this->formInput($form->get('identity')->setAttribute('class','form-control')) ?>
+                    </div>
 
-                    <dt><?php echo $this->formLabel($form->get('credential')) ?></dt>
-                    <dd><?php echo $this->formInput($form->get('credential')->setAttribute('class','form-control')) ?></dd>
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon login"><?php echo _('Password') ?></span>
+                        <?php echo $this->formInput($form->get('credential')->setAttribute('class','form-control')) ?>
+                    </div>
 
                     <?php if ($this->redirect): ?>
                         <input type="hidden" name="redirect" value="<?php echo $this->escapeHtml($this->redirect) ?>" />
                     <?php endif ?>
 
-                    <dd><?php echo $this->formButton($form->get('submit')->setAttribute('class','btn btn-primary')) ?></dd>
+                    <dd><?php echo $this->formButton($form->get('submit')->setAttribute('class','btn btn-primary fullwidth')) ?></dd>
                 </dl>
 
             <?php echo $this->form()->closeTag() ?>
-
-
  
-<?php if ($this->enableRegistration) : ?>
-<o><?php echo $this->translate('Not registered?'); ?> <a href="<?php echo $this->url('zfcuser/register') . ($this->redirect ? '?redirect='.$this->redirect : '') ?>"><?php echo $this->translate('Sign up!'); ?></a></p>
-<?php endif; ?>
+            <?php if ($this->enableRegistration) : ?>
+                
+            <a class="btn btn-warning fullwidth" href="<?php echo $this->url('zfcuser/register') . ($this->redirect ? '?redirect='.$this->redirect : '') ?>"><?php echo $this->translate('Not registered?'); ?> <?php echo $this->translate('Sign up!'); ?></a>
+            <?php endif; ?>
 
         </div>
     

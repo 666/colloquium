@@ -50,7 +50,7 @@ class UserTable extends AbstractTableGateway
 		$this->update(array('password' => $password, 'recovery_hash' => ''), array('recovery_hash' => $hash));
 	}
 
-    /*public function fetchAll()
+    public function fetchAll()
     {
         $resultSet = $this->select();
         return $resultSet;
@@ -83,5 +83,5 @@ class UserTable extends AbstractTableGateway
 			return $current['user_id'];
 		}
         return 0;
-	}*/
+	}
 }

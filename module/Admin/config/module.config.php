@@ -28,6 +28,19 @@ return array(
 							),
 						),
 					),
+					'users' => array(
+						'type' => 'segment',
+						'options' => array(
+							'route' => 'users[/:action[/:id]][/]',
+							'constraints' => array(
+		                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+		                        'id'     => '[0-9]+',
+		                    ),
+							'defaults' => array(
+								'controller' => 'Admin\Controller\Users',
+							),
+						),
+					),
 				),
 			),
 		),
@@ -36,6 +49,7 @@ return array(
         'invokables' => array(
 			'Admin\Controller\Index' => 'Admin\Controller\IndexController',
 			'Admin\Controller\Conferences' => 'Admin\Controller\ConferencesController',
+			'Admin\Controller\Users' => 'Admin\Controller\UsersController',
         ),
     ),
     'view_manager' => array(

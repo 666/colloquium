@@ -74,8 +74,8 @@
 			<?php endif; ?>
 
 			<?php if (!$this->registered && !$this->accreditated): ?>
-			<p><?php echo $this->translate('You didn\'t attend any conference.'); ?></p>
-			<p><a href="<?php echo $this->url('conferences'); ?>"><?php echo $this->translate('Click here to see open conferences'); ?></a>.</p>
+			<div class="alert alert-info" role="alert"><?php echo $this->translate('You didn\'t attend any conference.'); ?> - <a href="<?php echo $this->url('conferences'); ?>"><?php echo $this->translate('Click here to see open conferences'); ?></a></div>
+			<p></p>
 			<?php endif; ?>
 		</div>
 	</div>

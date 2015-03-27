@@ -76,6 +76,7 @@ return array(
 				 */
 				array('controller' => 'Admin\Controller\Index', 'roles' => array('admin')),
 				array('controller' => 'Admin\Controller\Conferences', 'roles' => array('admin')),
+				array('controller' => 'Admin\Controller\Users', 'roles' => array('admin')),
 				
 				/*array('controller' => 'index', 'action' => 'stuff', 'roles' => array('user')),
 				array('controller' => 'zfcuser', 'roles' => array())*/

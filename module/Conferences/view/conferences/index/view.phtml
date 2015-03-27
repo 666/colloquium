@@ -6,30 +6,28 @@
 				<h1>&nbsp;<i class="big-icon-announcement"></i> <?php echo $conference->name; ?></h1>
 			</div>
 			
-			<div class="row">
-				<?php if ($this->registered): ?>
-				<div class="alert alert-info">
-					<?php
-						$reg = $this->extractDate($this->registered['register']);
+			<?php if ($this->registered): ?>
+			<div class="alert alert-info">
+				<?php
+					$reg = $this->extractDate($this->registered['register']);
 
-						echo sprintf($this->translate(
-								'You registered to this conference in <strong>%s</strong>. See you there!'
-							),vsprintf('%s/%s/%s', array($reg['day'], $reg['month'], $reg['year']))
-						);
-					?>
-				</div>
-				<?php elseif ($this->zfcUserIdentity()): ?>
-				<a href="#myModal" role="button" data-toggle="modal" class="btn down-space btn-primary btn-largest offset1 col-sm-10"><?php echo $this->translate('Register me at this event!'); ?></a>
-				<?php else: ?>
-				<div class="alert">
-					<button type="button" class="close" data-dismiss="alert">×</button>
-					<?php echo $this->translate('<strong>Remember!</strong> You can\'t attend the conference without being registered.'); ?>
-					<a href="<?php echo $this->url('zfcuser'); ?>"><?php echo $this->translate('Click here to login'); ?></a>.
-				</div>
-				<?php endif; ?>
+					echo sprintf($this->translate(
+							'You registered to this conference in <strong>%s</strong>. See you there!'
+						),vsprintf('%s/%s/%s', array($reg['day'], $reg['month'], $reg['year']))
+					);
+				?>
 			</div>
+			<?php elseif ($this->zfcUserIdentity()): ?>
+			<a href="#myModal" role="button" data-toggle="modal" class="btn down-space btn-primary btn-largest offset1 col-sm-10"><?php echo $this->translate('Register me at this event!'); ?></a>
+			<?php else: ?>
+			<div class="alert">
+				<button type="button" class="close" data-dismiss="alert">×</button>
+				<?php echo $this->translate('<strong>Remember!</strong> You can\'t attend the conference without being registered.'); ?>
+				<a href="<?php echo $this->url('zfcuser'); ?>"><?php echo $this->translate('Click here to login'); ?></a>.
+			</div>
+			<?php endif; ?>
 			
-			<div class="row">
+			<div class="row" style="padding:0;margin:0;">
 				<div class="col-sm-6 well">
 					<h3><?php echo $this->translate('About the conference'); ?></h3>
 					<p><?php
@@ -49,7 +47,7 @@
 				</div>
 				
 				<div class="col-sm-6">
-					<h3><?php echo $this->translate('Information'); ?></h3>
+					<div class="page-header"><h3><?php echo $this->translate('Information'); ?></h3></div>
 					<p><?php
 						// Tons of things to do here!
 						$starting_time = $this->extractDate($conference->starting_time);
@@ -103,10 +101,10 @@
 							printf(' - %s/%s/%s', $registration_closed['day'], $registration_closed['month'], $registration_closed['short_year']);
 					?></p>
 					
-					<h4><?php echo $this->translate('Registration fee'); ?></h4>
+					<div class="page-header"><h4><?php echo $this->translate('Registration fee'); ?></h4></div>
 					<p><?php echo $conference->registration_fee; ?></p>
 					
-					<h4><?php echo $this->translate('Location'); ?></h4>
+					<div class="page-header"><h4><?php echo $this->translate('Location'); ?></h4></div>
 					<?php
 						echo '<p><strong>' . $conference->location . '</strong><br>';
 						echo $conference->address . '<br>';

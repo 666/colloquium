@@ -1,6 +1,12 @@
-<div style="float:left; padding-right:16px;"><?php echo $this->gravatar($this->zfcUserIdentity()->getEmail()) ?></div>
-<h3><?php echo $this->translate('Hello'); ?>, <?php echo $this->zfcUserDisplayName() ?>!</h3>
-<a href="<?php echo $this->url('zfcuser/logout') ?>">[<?php echo $this->translate('Sign Out'); ?>]</a>
-<p><a href="<?php echo $this->url('zfcuser/changepassword') ?>"><?php echo $this->translate('Change password'); ?></a></p>
-<p><a href="<?php echo $this->url('zfcuser/changeemail') ?>"><?php echo $this->translate('Change email'); ?></a></p>
-<div style="clear:both;"></div>
+<div class="jumbotron userinfo">
+	<div class="row">
+		<div class="col-sm-2 col-md-1"><?php echo $this->gravatar($this->zfcUserIdentity()->getEmail()) ?></div>
+  		<div class="col-sm-10 col-md-11">
+  			<h2><?php echo $this->translate('Hello'); ?>, <?php echo $this->zfcUserDisplayName() ?>!</h2>
+  			<div class="row">
+  				<div class="col-sm-3"><a style="width:100%;" class="btn btn-default" href="<?php echo $this->url('zfcuser/changepassword') ?>"><?php echo $this->translate('Change password'); ?></a></div>
+  				<div class="col-sm-3"><a style="width:100%;" class="btn btn-default" href="<?php echo $this->url('zfcuser/changeemail') ?>"><?php echo $this->translate('Change email'); ?></a></div>
+  			</div>
+  		</div>
+  	</div>
+</div>

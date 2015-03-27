@@ -18,7 +18,7 @@ class Conference implements InputFilterAwareInterface
 		 */
 		$extract = array(
 			'conference_id', 'user_id', 'name', 'short_name', 'description', 'registration_fee', 'location',
-			'address', 'city', 'state', 'country', 'gmt', 'show_running', 'active'
+			'address', 'city', 'state', 'country', 'gmt', 'show_running', 'active', 'starting_time', 'first_day', 'last_day', 'cfp_opened', 'cfp_closed', 'registration_opened', 'registration_closed'
 		);
 
 		foreach ($extract as $ext)

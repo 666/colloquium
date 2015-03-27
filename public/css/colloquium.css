@@ -447,3 +447,62 @@ display:inline-block;
 .big-icon-woman{ background-position: -524px -688px; width: 22px; height: 22px; } 
 .big-icon-zoom-in{ background-position: -524px -740px; width: 25px; height: 25px; } 
 .big-icon-zoom-out{ background-position: -524px -795px; width: 25px; height: 25px; }
+
+.userinfo img{
+	border-radius:50%;
+	border:5px solid #fff;
+	box-shadow:0 0 1px solid #ccc;
+}
+
+.userinfo {
+	padding:15px;
+}
+
+.navbar img{
+    margin-top:-13.5px;
+    margin-bottom:-13.5px;
+    border-radius:50%;
+    border:2px solid #fff;
+    box-shadow:0 0 1px #ccc;
+}
+
+.navbar-brand img{
+	box-shadow:none;
+	border:0;
+	border-radius:0;
+	margin-right:10px;
+}
+
+#control-group-gmt+label {
+    display: block;
+    margin-top:10px;
+    margin-bottom: 10px;
+}
+
+#control-group-gmt+label .checkbox,#control-group-gmt+label+label .checkbox {
+    float:left;
+    margin-right:15px;
+    margin-top:0px;
+}
+
+dl.zend_form>ul li{
+    list-style: none;
+    background:#d40000;
+    color:#fff;
+    margin:10px 0 0 -40px;
+    padding:10px;
+    border-radius:5px;
+}
+
+.fullwidth {
+	width:100%;
+	display: block;
+}
+
+.input-group input {
+    margin-top:0px !important;
+}
+
+.input-group {
+	margin-bottom:20px;
+}

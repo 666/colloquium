@@ -4,6 +4,7 @@ namespace Admin\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Admin\Model\UserTable;
 
 use Admin\Form\ConferenceForm;
 
@@ -38,6 +39,37 @@ class ConferencesController extends AbstractActionController
 
 			if ($form->isValid()) {
 				$conference->exchangeArray($form->getData());
+				$this->getConferencesTable()->saveConference($conference);
+
+				// Redirect to list
+				return $this->redirect()->toRoute('admin/conferences');
+			}
+		}
+		
+		return(array('form' => $form));
+	}
+
+	public function editAction()
+	{
+
+		$id = (int) $this->params()->fromRoute('id');
+
+		$user_id = $this->zfcUserAuthentication()->getIdentity()->getId();
+
+		$conference = $this->getConferencesTable()->fetchFullData($id)->current();
+
+		$form = new ConferenceForm(null, $user_id, $id, $conference);
+
+		$request = $this->getRequest();
+
+		if ($request->isPost()) {
+			$conference = new Conference();
+			$form->setInputFilter($conference->getInputFilter());
+			$form->setData($request->getPost());
+
+			if ($form->isValid()) {
+				$conference->exchangeArray($form->getData());
+
 				$this->getConferencesTable()->saveConference($conference);
 
 				// Redirect to list
