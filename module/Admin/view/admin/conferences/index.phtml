@@ -29,6 +29,7 @@
 								$staff			= $this->translate('Staff');
 								$atendees		= $this->translate('Attendees');
 								$edit			= $this->translate('Edit');
+								$remove			= $this->translate('Remove');
 							?>
 							<!-- Schedule -->
 							<?php /* <a class="btn btn-small" href="<?php echo $this->url('admin/conferences', array('action' => 'schedule', 'id' => $conference->conference_id)); ?>" rel="tooltip" alt="<?php echo $schedule; ?>" title="<?php echo $schedule; ?>"><i class="glyphicon glyphicon-calendar"></i></a>
@@ -42,6 +43,8 @@
 							<a class="btn btn-small" href="<?php echo $this->url('admin/conferences', array('action' => 'attendees', 'id' => $conference->conference_id)); ?>" alt="<?php echo $atendees; ?>" title="<?php echo $atendees; ?>"><i class="glyphicon glyphicon-user"></i></a> */ ?>
 							<!-- Edit -->
 							<a class="btn btn-small" href="<?php echo $this->url('admin/conferences', array('action' => 'edit', 'id' => $conference->conference_id)); ?>" alt="<?php echo $edit; ?>" title="<?php echo $edit; ?>"><i class="glyphicon glyphicon-pencil"></i></a>
+							<!-- Remove -->
+							<a class="btn btn-small" onclick='if(!window.confirm("Are you sure you want to delete this conference?")){return false;}' href="<?php echo $this->url('admin/conferences', array('action' => 'del', 'id' => $conference->conference_id)); ?>" alt="<?php echo $remove; ?>" title="<?php echo $remove; ?>"><i class="glyphicon glyphicon-trash"></i></a>
 						</div>
 					</td>
 				</tr>

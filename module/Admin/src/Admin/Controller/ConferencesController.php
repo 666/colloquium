@@ -79,6 +79,18 @@ class ConferencesController extends AbstractActionController
 		
 		return(array('form' => $form));
 	}
+
+	public function delAction()
+	{
+
+		$id = (int) $this->params()->fromRoute('id');
+
+		$this->getConferencesTable()->deleteConference($id);
+
+		return $this->redirect()->toRoute('admin/conferences');
+
+	}
+	
 	
 	public function submissionsAction()
 	{

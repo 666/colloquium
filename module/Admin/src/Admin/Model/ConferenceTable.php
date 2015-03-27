@@ -167,26 +167,15 @@ class ConferenceTable extends AbstractTableGateway
 			'address', 'city', 'state', 'country', 'gmt', 'show_running', 'active'
 		);
 		
-		$schedule_extract = array(
-			'conference_id', 'starting_time', 'first_day', 'last_day', 'cfp_opened', 'cfp_closed', 'registration_opened', 'registration_closed'
-		);
-
 		$data = array();
 
-		$schedule = array();
-		
 		foreach ($extract as $ext)
 			$data[$ext] = $conference->$ext;
-
-		foreach ($schedule_extract as $sch)
-			$schedule[$sch] = $conference->$sch;
 
 		$id = (int) $conference->conference_id;
 
 		if ($id == 0) {
 			$this->insert($data);
-			$this->insert('conference_schedule', array(
-			'conference_id' => 7, 'starting_time' => "02:33:00"));
 		} else {
 			if ($this->getConference($id)) {
 				$this->update($data, array('conference_id' => $id));
